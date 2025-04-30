@@ -9,7 +9,8 @@
         <a href="/add">Добавить подарок</a>
         <ul>
             <li th:each="gift: ${gifts}">
-                <p th:text="${gift.name}"></p>
+                <a th:href="@{/gift/{id}(id=${gift.id})}" th:text="${gift.name}"></a>
+                <a th:href="@{/edit/{id}(id=${gift.id})}">[редактировать]</a>
             </li>
         </ul>
     </body>
