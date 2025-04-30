@@ -60,4 +60,9 @@ public class GiftController {
         giftRepository.save(gift);
         return "redirect:/gift/"+id;
     }
+    @GetMapping("/delete/{id}")
+    public String deleteGift(@PathVariable Long id){
+        giftRepository.deleteById(id);
+        return "redirect:/";
+    }
 }

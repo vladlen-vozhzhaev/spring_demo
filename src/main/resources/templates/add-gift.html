@@ -2,19 +2,59 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Добавить подарок</title>
+        <title>Wishlist — Добавление нового желания</title>
+        <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f7f7f7;
+              margin: 0;
+              padding: 0;
+            }
+
+            form {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+            }
+
+            input[type=text],
+            textarea {
+              width: 300px;
+              padding: 10px;
+              margin: 10px 0;
+              border-radius: 5px;
+              box-shadow: inset 0 0 5px rgba(0, 0, 0, .1);
+            }
+
+            button {
+              padding: 10px 20px;
+              background-color: #ffa500;
+              color: white;
+              border: none;
+              cursor: pointer;
+              transition: all 0.3s ease-in-out;
+            }
+
+            button:hover {
+              transform: scale(1.1);
+            }
+        </style>
     </head>
     <body>
         <h1>Добавление подарка</h1>
         <form th:action="@{/add}" th:object="${gift}" method="post">
             <div>
-                <input type="text" th:field="*{name}" placeholder="Название" required>
+                <label for="gift-name">Название подарка:</label>
+                <input id="gift-name" type="text" th:field="*{name}" placeholder="Название" required>
             </div>
             <div>
-                <textarea th:field="*{description}" placeholder="Описание"></textarea>
+                <label for="gift-description">Описание подарка:</label>
+                <textarea id="gift-description" th:field="*{description}" placeholder="Описание"></textarea>
             </div>
             <div>
-                <input type="submit" value="Добавить">
+                <button type="submit">Добавить подарок</button>
             </div>
         </form>
     </body>

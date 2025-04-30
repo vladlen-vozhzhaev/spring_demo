@@ -2,16 +2,76 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Мой список</title>
+        <title>Wishlist — Список желаний</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f7f7f7;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: auto;
+                padding: 20px;
+                text-align: center;
+            }
+
+            h1 {
+                color: #333;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            a {
+                cursor: pointer;
+                padding: 5px 10px;
+                margin-right: 5px;
+                background-color: #ffa500;
+                color: white;
+                border: none;
+                transition: all 0.3s ease-in-out;
+            }
+
+            a:hover {
+                transform: scale(1.1);
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        </style>
     </head>
     <body>
-        <h1>Список подарков</h1>
+    <div class="container">
         <a href="/add">Добавить подарок</a>
-        <ul>
-            <li th:each="gift: ${gifts}">
-                <a th:href="@{/gift/{id}(id=${gift.id})}" th:text="${gift.name}"></a>
-                <a th:href="@{/edit/{id}(id=${gift.id})}">[редактировать]</a>
-            </li>
-        </ul>
+        <table>
+            <tr>
+                <th>Название подарка</th>
+                <th>Описание</th>
+                <th>Управление</th>
+            </tr>
+            <tr th:each="gift: ${gifts}">
+                <td th:text="${gift.name}"></td>
+                <td th:text="${gift.description}"></td>
+                <td>
+                    <a th:href="@{/edit/{id}(id=${gift.id})}">[редактировать]</a><br><br>
+                    <a th:href="@{/delete/{id}(id=${gift.id})}" style="color: red;">[удалить]</a>
+                </td>
+            </tr>
+        </table>
+    </div>
     </body>
 </html>
