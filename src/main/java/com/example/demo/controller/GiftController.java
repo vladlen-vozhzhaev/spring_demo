@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Gift;
 import com.example.demo.repository.GiftRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +22,18 @@ public class GiftController {
     }
 
     @GetMapping("/hello")
-    public String getHello(){
+    public String getHello(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null){
+            model.addAttribute("username", auth.getName());
+        }
         return "hello";
     }
 
     @GetMapping("/")
     public String showAllGifts(Model model){
         List<Gift> gifts = giftRepository.findAll();
+        model.addAttribute("gift", new Gift());
         model.addAttribute("gifts", gifts);
         return "gifts-list";
     }
@@ -38,7 +45,7 @@ public class GiftController {
     @PostMapping("/add")
     public String addGift(@ModelAttribute Gift gift){
         giftRepository.save(gift);
-        return "redirect:/hello";
+        return "redirect:/";
     }
     @GetMapping("/gift/{id}")
     public String showSingleGift(@PathVariable Long id, Model model){

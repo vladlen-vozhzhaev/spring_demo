@@ -16,6 +16,10 @@ public class Gift {
     @Column(columnDefinition = "Text")
     private String description; // Максимум 65535 символов, благодаря columnDefinition = "Text"
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void setId(Long id) {
         this.id = id;
     }
