@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Gift;
+import com.example.demo.entity.User;
 import com.example.demo.repository.GiftRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,14 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 public class GiftController {
     private final GiftRepository giftRepository;
+    private final UserRepository userRepository;
 
-    public GiftController(GiftRepository giftRepository) {
+    public GiftController(GiftRepository giftRepository, UserRepository userRepository) {
         this.giftRepository = giftRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/hello")
@@ -31,8 +36,13 @@ public class GiftController {
     }
 
     @GetMapping("/")
-    public String showAllGifts(Model model){
-        List<Gift> gifts = giftRepository.findAll();
+    public String showMainPage(){
+        return "index";
+    }
+    @GetMapping("/gifts")
+    public String showAllGifts(Model model, Principal principal){
+        User user = userRepository.findByUsername(principal.getName());
+        List<Gift> gifts = giftRepository.findByUser(user);
         model.addAttribute("gift", new Gift());
         model.addAttribute("gifts", gifts);
         return "gifts-list";
@@ -43,7 +53,9 @@ public class GiftController {
         return "add-gift";
     }
     @PostMapping("/add")
-    public String addGift(@ModelAttribute Gift gift){
+    public String addGift(@ModelAttribute Gift gift, Principal principal){
+        User user = userRepository.findByUsername(principal.getName());
+        gift.setUser(user);
         giftRepository.save(gift);
         return "redirect:/";
     }

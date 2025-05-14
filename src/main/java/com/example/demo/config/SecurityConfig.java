@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/", "/registration", "/login").permitAll()
                         .anyRequest().authenticated()
-                ).formLogin(form->form.loginPage("/login").defaultSuccessUrl("/gifts").permitAll())
+                ).formLogin(form->form.loginPage("/login").defaultSuccessUrl("/profile", true).permitAll())
                 .logout(logout->logout.logoutSuccessUrl("/").permitAll())
                 .userDetailsService(userDetailsService);
         return http.build();

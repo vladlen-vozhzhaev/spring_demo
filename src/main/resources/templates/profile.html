@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${username}">
+    <h1 th:text="${username}"></h1>
+    <form th:action="@{/change-password}" method="post">
+        <input type="password" name="password" placeholder="Задать новый пароль">
+        <input type="submit" value="Сохранить новый пароль">
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Выход">
+    </form>
+</div>
+
+</body>
+</html>
