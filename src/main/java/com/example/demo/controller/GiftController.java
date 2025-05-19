@@ -8,10 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -53,11 +50,13 @@ public class GiftController {
         return "add-gift";
     }
     @PostMapping("/add")
+    @ResponseBody
     public String addGift(@ModelAttribute Gift gift, Principal principal){
         User user = userRepository.findByUsername(principal.getName());
         gift.setUser(user);
         giftRepository.save(gift);
-        return "redirect:/";
+        return "{\"result\": \"success\"}";
+        //return "redirect:/gifts";
     }
     @GetMapping("/gift/{id}")
     public String showSingleGift(@PathVariable Long id, Model model){
